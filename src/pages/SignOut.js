@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { useHistory } from "react-router-dom";
+import { Auth } from "aws-amplify";
 
-import { signOut } from "../auth";
 import { isSignedInState } from "../atoms";
 
 function SignOut() {
@@ -10,13 +10,14 @@ function SignOut() {
   const setIsSignedIn = useSetRecoilState(isSignedInState);
 
   useEffect(() => {
-    signOut()
+    Auth.signOut()
       .then(() => {
         setIsSignedIn(false);
-        history.push("/SignIn")
+        history.push("/SignIn");
       })
       .catch((error) => console.log(error));
   });
+
   return <></>;
 }
 

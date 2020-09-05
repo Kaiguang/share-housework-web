@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useHistory, Link as RouterLink } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { makeStyles } from "@material-ui/core/styles";
+import { Auth } from "aws-amplify";
 
-import { signIn } from "../auth";
 import { isSignedInState } from "../atoms";
 
 import Container from "@material-ui/core/Container";
@@ -44,7 +44,7 @@ export default function SignIn() {
 
   const handleSignIn = (event) => {
     event.preventDefault();
-    signIn(email, password)
+    Auth.signIn(email, password)
       .then(() => {
         setIsSignedIn(true);
         history.push("/MyChores");

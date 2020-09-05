@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const isSignedInState = atom({
   key: "isSignedInState",
-  default: true,
+  default: false,
 });
 
 export const navBarTitleState = atom({
