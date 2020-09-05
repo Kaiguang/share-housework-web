@@ -12,12 +12,19 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 
 import { userProfileState, navBarTitleState } from "../atoms.js";
 import config from "../config.js";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   dialogElement: {
+    marginBottom: `10px`,
+  },
+  card: {
     marginBottom: `10px`,
   },
 });
@@ -155,66 +162,80 @@ export default function Settings() {
 
   return (
     <>
-      <List subheader={<ListSubheader>My roommate's nickname:</ListSubheader>}>
-        <Divider />
-        <ListItem button divider onClick={handleEditNicknameButtonClick}>
-          <ListItemText
-            primary={userProfile.CanConfirmWhom.Nickname}
-            secondary="Click to change"
-          />
-        </ListItem>
-      </List>
+      <List>
+        <Card className={classes.card} variant="outlined">
+          <CardContent>
+            <Typography variant="body2" color="textSecondary">
+              Nickname for my roommate
+            </Typography>
+            <Typography>{userProfile.CanConfirmWhom.Nickname}</Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              onClick={handleEditNicknameButtonClick}
+              variant="outlined"
+              size="small"
+            >
+              Edit
+            </Button>
+          </CardActions>
+        </Card>
 
-      <Dialog
-        open={isNicknameDialogOpen}
-        onClose={() => setIsNicknameDialogOpen(false)}
-      >
-        <DialogContent>
-          <TextField
-            className={classes.dialogElement}
-            fullWidth
-            label="Nickname"
-            value={tempNickname}
-            variant="outlined"
-            onChange={handleNicknameEditChange}
-          />
-          <Button
-            className={classes.dialogElement}
-            variant="outlined"
-            fullWidth
-            onClick={handleNicknameDialogSave}
-          >
-            Save
-          </Button>
-          <Button
-            className={classes.dialogElement}
-            variant="outlined"
-            fullWidth
-            onClick={() => setIsNicknameDialogOpen(false)}
-          >
-            Cancel
-          </Button>
-        </DialogContent>
-      </Dialog>
-
-      <List subheader={<ListSubheader>I can do:</ListSubheader>}>
-        <Divider />
-        {userProfile.CanPerformChores.map((chore) => (
-          <ListItem
-            key={chore.Id}
-            button
-            divider
-            onClick={() => handleChoreClick(chore.Id)}
-          >
-            <ListItemText
-              primary={chore.Chore}
-              secondary={`$ ${chore.Cents / 100}`}
+        <Dialog
+          open={isNicknameDialogOpen}
+          onClose={() => setIsNicknameDialogOpen(false)}
+        >
+          <DialogContent>
+            <TextField
+              className={classes.dialogElement}
+              fullWidth
+              label="Nickname"
+              value={tempNickname}
+              variant="outlined"
+              onChange={handleNicknameEditChange}
             />
+            <Button
+              className={classes.dialogElement}
+              variant="outlined"
+              fullWidth
+              onClick={handleNicknameDialogSave}
+            >
+              Save
+            </Button>
+            <Button
+              className={classes.dialogElement}
+              variant="outlined"
+              fullWidth
+              onClick={() => setIsNicknameDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+          </DialogContent>
+        </Dialog>
+
+        <Card className={classes.card} variant="outlined">
+          <CardContent>
+            <Typography variant="body2" color="textSecondary">
+              My chores to perform
+            </Typography>
+          </CardContent>
+          {userProfile.CanPerformChores.map((chore) => (
+            <ListItem
+              key={chore.Id}
+              button
+              divider
+              onClick={() => handleChoreClick(chore.Id)}
+            >
+              <ListItemText
+                primary={chore.Chore}
+                secondary={`$ ${chore.Cents / 100}`}
+              />
+            </ListItem>
+          ))}
+          <ListItem button onClick={handleAddANewOne}>
+            <ListItemText secondary="ADD A NEW ONE" />
           </ListItem>
-        ))}
-        <ListItem button onClick={handleAddANewOne}>
-          <ListItemText primary="Add a new one" />
-        </ListItem>
+        </Card>
       </List>
 
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
