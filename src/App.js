@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { API, Auth } from "aws-amplify";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 
 import Home from "./pages/Home";
 import LinkARoommate from "./pages/LinkARoommate";
@@ -19,7 +19,7 @@ import { isSignedInState, userProfileState } from "./atoms";
 import config from "./config.js";
 
 export default function App() {
-  const setIsSignedIn = useSetRecoilState(isSignedInState);
+  const [isSignedIn, setIsSignedIn] = useRecoilState(isSignedInState);
   const setUserProfile = useSetRecoilState(userProfileState);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function App() {
         console.log(error);
         setIsSignedIn(false);
       });
-  }, [setIsSignedIn, setUserProfile]);
+  }, [setIsSignedIn, setUserProfile, isSignedIn]);
 
   return (
     <BrowserRouter>
