@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { API, Auth } from "aws-amplify";
+import { useSetRecoilState } from "recoil";
 
 import Home from "./pages/Home";
 import LinkARoommate from "./pages/LinkARoommate";
@@ -13,8 +15,28 @@ import SignUp from "./pages/SignUp";
 import SignUpConfirmation from "./pages/SignUpConfirmation";
 
 import PrivateRoute from "./components/PrivateRoute";
+import { isSignedInState, userProfileState } from "./atoms";
+import config from "./config.js";
 
 export default function App() {
+  const setIsSignedIn = useSetRecoilState(isSignedInState);
+  const setUserProfile = useSetRecoilState(userProfileState);
+
+  useEffect(() => {
+    Auth.currentSession()
+      .then(() => {
+        setIsSignedIn(true);
+        return API.get(config.Amplify.API.endpoints[0].name, "/user_profile");
+      })
+      .then((data) => {
+        setUserProfile(data.Item);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsSignedIn(false);
+      });
+  }, [setIsSignedIn, setUserProfile]);
+
   return (
     <BrowserRouter>
       <Switch>

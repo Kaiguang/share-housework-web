@@ -1,32 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { API, Auth } from "aws-amplify";
+import { useRecoilValue } from "recoil";
 
 import Grid from "@material-ui/core/Grid";
 
 import NavBar from "./NavBar";
-import { isSignedInState, userProfileState } from "../atoms";
-import config from "../config.js";
+import { isSignedInState } from "../atoms";
 
 export default function PrivateRoute({ children, ...rest }) {
-  const [isSignedIn, setIsSignedIn] = useRecoilState(isSignedInState);
-  const setUserProfile = useSetRecoilState(userProfileState);
-
-  useEffect(() => {
-    Auth.currentSession()
-      .then(() => {
-        setIsSignedIn(true);
-        return API.get(config.Amplify.API.endpoints[0].name, "/user_profile");
-      })
-      .then((data) => {
-        setUserProfile(data.Item);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsSignedIn(false);
-      });
-  }, [setIsSignedIn, setUserProfile]);
+  const isSignedIn = useRecoilValue(isSignedInState);
 
   return (
     <>
