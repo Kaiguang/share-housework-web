@@ -25,7 +25,7 @@ export default {
     Auth: {
       region: "us-west-2",
       userPoolId: "us-west-2_0YmopcueY",
-      userPoolWebClientId: "1cg9ntd42js2tp192stroj9o1q",
+      userPoolWebClientId: "3ikhh6llbjjqlh8fcteift9ern",
     },
     API: {
       endpoints: [
