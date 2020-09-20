@@ -35,6 +35,7 @@ export default function SignUpConfirmation() {
   };
 
   const handleConfirmationClick = (event) => {
+    event.preventDefault();
     Auth.confirmSignUp(username, verificationCode)
       .then(() => {
         history.push("/SignIn");
@@ -77,6 +78,7 @@ export default function SignUpConfirmation() {
           onClick={handleConfirmationClick}
           size="large"
           variant="outlined"
+          type="submit"
         >
           Confirm
         </Button>
