@@ -58,7 +58,7 @@ export default function MyChores() {
   }, [setNavBarTitle]);
 
   const fetchMyChores = () => {
-    API.get(config.Amplify.API.endpoints[0].name, "/chores")
+    API.get(config.Amplify.API.endpoints[0].name, "/getChores")
       .then((data) => {
         setMyChores(data.Items);
         setIsLoading(false);
@@ -107,7 +107,7 @@ function Chore(props) {
 
   const handleConfirmPayment = (timeCreated) => {
     setIsConfirmPaymentLoading(true);
-    API.put(config.Amplify.API.endpoints[0].name, "/chores/confirm_payment", {
+    API.put(config.Amplify.API.endpoints[0].name, "/confirmChorePayment", {
       body: {
         timeCreated,
       },

@@ -9,7 +9,7 @@ export default {
       endpoints: [
         {
           name: "share-housework-dev",
-          endpoint: "https://eu37k0q4q6.execute-api.us-west-2.amazonaws.com",
+          endpoint: "https://rqoej1ue9i.execute-api.us-west-2.amazonaws.com/",
         },
       ],
     },

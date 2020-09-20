@@ -64,7 +64,7 @@ export default function Settings() {
       },
     };
 
-    API.put(config.Amplify.API.endpoints[0].name, "/user_profile", {
+    API.put(config.Amplify.API.endpoints[0].name, "/putUserProfile", {
       body: updatedUserProfile,
     })
       .then(() => {
@@ -122,7 +122,7 @@ export default function Settings() {
       CanPerformChores: updatedChores,
     };
 
-    API.put(config.Amplify.API.endpoints[0].name, "/user_profile", {
+    API.put(config.Amplify.API.endpoints[0].name, "/putUserProfile", {
       body: updatedUserProfile,
     })
       .then(() => {
@@ -143,7 +143,7 @@ export default function Settings() {
       CanPerformChores: updatedChores,
     };
 
-    API.put(config.Amplify.API.endpoints[0].name, "/user_profile", {
+    API.put(config.Amplify.API.endpoints[0].name, "/putUserProfile", {
       body: updatedUserProfile,
     })
       .then(() => {

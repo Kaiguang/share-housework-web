@@ -15,7 +15,7 @@ export default function AddChoreDialog(props) {
   const userProfile = useRecoilValue(userProfileState);
 
   const postChoreToDb = (chore) => {
-    API.post(config.Amplify.API.endpoints[0].name, "/chores", {
+    API.post(config.Amplify.API.endpoints[0].name, "/createChore", {
       body: { chore: chore.Chore, cents: chore.Cents },
     })
       .then(() => {

@@ -34,7 +34,7 @@ export default function LinkARoommate() {
       RequestingRoommate: { Username: roommatesEmail, Nickname: "" },
     };
 
-    API.put(config.Amplify.API.endpoints[0].name, "/request_roommate", {
+    API.put(config.Amplify.API.endpoints[0].name, "/requestRoommate", {
       body: updatedUserProfile,
     })
       .then((result) => {
@@ -47,7 +47,7 @@ export default function LinkARoommate() {
   };
 
   const handleRequestCancelButtonClick = () => {
-    API.put(config.Amplify.API.endpoints[0].name, "/cancel_roommate_request", {
+    API.put(config.Amplify.API.endpoints[0].name, "/cancelRoommateRequest", {
       body: userProfile,
     })
       .then(() => {
@@ -60,10 +60,10 @@ export default function LinkARoommate() {
   };
 
   const handleRoommateRequestAcceptButtonClick = () => {
-    API.put(config.Amplify.API.endpoints[0].name, "/accept_roommate_request", {
+    API.put(config.Amplify.API.endpoints[0].name, "/acceptRoommateRequest", {
       body: userProfile,
     })
-      .then(() => API.get(config.Amplify.API.endpoints[0].name, "/user_profile"))
+      .then(() => API.get(config.Amplify.API.endpoints[0].name, "/getUserProfile"))
       .then((data) => {
         setUserProfile(data.Item);
         history.push("/PayeesChores");

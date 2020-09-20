@@ -43,7 +43,7 @@ export default function PayeeChores() {
 
   useEffect(() => {
     async function getPayeesChores() {
-      const getChoresPromise = API.get(config.Amplify.API.endpoints[0].name, "/payees_chores");
+      const getChoresPromise = API.get(config.Amplify.API.endpoints[0].name, "/getPayeesChores");
 
       try {
         setPayeesChores(await getChoresPromise);
@@ -61,7 +61,7 @@ export default function PayeeChores() {
     return () =>
       API.cancel(
         getChoresPromise,
-        "GET /payees_chores was cancelled from useEffect hook due to component unmount."
+        "GET /getPayeesChores was cancelled from useEffect hook due to component unmount."
       );
   }, [setIsSignedIn]);
 
@@ -85,7 +85,7 @@ function Chore(props) {
   const [chore, setChore] = useState(props.chore);
 
   const handleConfirmChoreClick = () => {
-    API.put(config.Amplify.API.endpoints[0].name, "/chores/confirm_chore_performance", {
+    API.put(config.Amplify.API.endpoints[0].name, "/confirmChorePerformance", {
       body: {
         timeCreated: chore.TimeCreated,
       },

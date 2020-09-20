@@ -26,7 +26,7 @@ export default function App() {
     Auth.currentSession()
       .then(() => {
         setIsSignedIn(true);
-        return API.get(config.Amplify.API.endpoints[0].name, "/user_profile");
+        return API.get(config.Amplify.API.endpoints[0].name, "/getUserProfile");
       })
       .then((data) => {
         setUserProfile(data.Item);
