@@ -1,4 +1,5 @@
 // for development environment
+/*
 export default {
   Amplify: {
     Auth: {
@@ -16,9 +17,9 @@ export default {
     },
   },
 };
+*/
 
 // for production environment
-/*
 export default {
   Amplify: {
     Auth: {
@@ -36,4 +37,3 @@ export default {
     },
   },
 };
-*/
