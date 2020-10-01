@@ -38,6 +38,9 @@ const useStyles = makeStyles({
     bottom: `20px`,
     right: `20px`,
   },
+  dollarAmount: {
+    textAlign: `center`,
+  },
 });
 
 export default function MyChores() {
@@ -74,8 +77,36 @@ export default function MyChores() {
 
   useEffect(fetchMyChores, []);
 
+  const totalConfirmedChoresPrice = () => {
+    const totalCents = myChores.reduce((accumulator, current) => {
+      if (current.Cents && current.IsConfirmed && !current.IsPaid) {
+        return accumulator + parseInt(current.Cents);
+      } else {
+        return accumulator;
+      }
+    }, 0);
+    return totalCents / 100;
+  };
+
+  const totalUnconfirmedChoresPrice = () => {
+    const totalCents = myChores.reduce((accumulator, current) => {
+      if (current.Cents && !current.IsConfirmed && !current.IsPaid) {
+        return accumulator + parseInt(current.Cents);
+      } else {
+        return accumulator;
+      }
+    }, 0);
+    return totalCents / 100;
+  };
+
   return (
     <List>
+      <Typography className={classes.dollarAmount}>
+        Total confirmed: ${`${totalConfirmedChoresPrice()}`}
+      </Typography>
+      <Typography className={classes.dollarAmount}>
+        Total unconfirmed: ${`${totalUnconfirmedChoresPrice()}`}
+      </Typography>
       {isLoading ? (
         <Box className={classes.loadingIndicator}>
           <CircularProgress />
@@ -86,9 +117,12 @@ export default function MyChores() {
             key={item.TimeCreated}
             chore={item}
             fetchMyChores={fetchMyChores}
+            setMyChores={setMyChores}
+            myChores={myChores}
           />
         ))
       )}
+
       <Fab
         onClick={handleNewChoreIconClick}
         color="primary"
@@ -128,6 +162,15 @@ function Chore(props) {
         if (data.message === "Payment confirmed") {
           const updatedChore = { ...chore, IsPaid: true };
           setChore(updatedChore);
+
+          const chores = props.myChores.map((item) => {
+            if (item.TimeCreated === chore.TimeCreated) {
+              return updatedChore;
+            } else {
+              return item;
+            }
+          });
+          props.setMyChores(chores);
         }
       })
       .catch((error) => {
