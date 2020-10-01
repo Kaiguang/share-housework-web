@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { API } from "aws-amplify";
 
@@ -13,14 +13,18 @@ import config from "../config.js";
 
 export default function AddChoreDialog(props) {
   const userProfile = useRecoilValue(userProfileState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const postChoreToDb = (chore) => {
+    setIsLoading(true);
+
     API.post(config.Amplify.API.endpoints[0].name, "/createChore", {
       body: { chore: chore.Chore, cents: chore.Cents },
     })
       .then(() => {
         props.onClose();
         props.fetchMyChores();
+        setTimeout(() => setIsLoading(false), 500);
       })
       .catch((error) => {
         console.log(error);
@@ -29,17 +33,23 @@ export default function AddChoreDialog(props) {
 
   return (
     <Dialog open={props.open} onClose={props.onClose}>
-      <DialogTitle>Add a chore</DialogTitle>
-      <List>
-        {userProfile.CanPerformChores.map((chore) => (
-          <ListItem key={chore.Id} button onClick={() => postChoreToDb(chore)}>
-            <ListItemText
-              primary={chore.Chore}
-              secondary={`$ ${chore.Cents / 100}`}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <DialogTitle>{isLoading ? `Adding chore...` : `Add a chore`}</DialogTitle>
+      {isLoading ? null : (
+        <List>
+          {userProfile.CanPerformChores.map((chore) => (
+            <ListItem
+              key={chore.Id}
+              button
+              onClick={() => postChoreToDb(chore)}
+            >
+              <ListItemText
+                primary={chore.Chore}
+                secondary={`$ ${chore.Cents / 100}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </Dialog>
   );
 }
